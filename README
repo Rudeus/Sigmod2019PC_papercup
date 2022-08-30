@@ -1,0 +1,99 @@
+- team name
+    papercup
+
+- for each team member:
+    full name, e-mail, institution, department, and degree program
+    
+    HyunsooCho, hysoo.cho@gmail.com, Hanyang University, Computer Science, Persuing Master
+    KihwangKim, daktopia@gmail.com, Hanyang University, Computer Science, Persuing Master
+	JaeseonYu, yujjjang3@gmail.com, Hanyang University, Computer Science, Undergraduate
+    
+- advisor/supervisor name (if any)
+    HyungsooJung, Hanyang University 
+
+- a brief description of the solution
+
+	* Small & Medium set
+		1. Partitioning
+			Read the input file and make partitions which are independent.
+			Sort each partition using quick sort.
+
+	* Large set
+		1. Task pool model
+			All tasks including partitioning, sorting, merging and all operations are divided in small tasks and processed.
+
+		2. Partitioning by Sampling & Histogram
+			Read random position with hist_chunk_size(100M) for sampling and make histogram using first 3-byte of 10-byte key
+			Using histogram accumulation, get partitionig point of record
+			All partitions have indepenedency of key range
+
+		3. Merge sort
+			Each chunks are sorted by quick sort, and make run for merge task.
+			Merging with multi-way(15) and make another run with output of merging, but we can merge under 15 when it is the last merging phase(runsize == partition size).
+
+		4. Some optimization
+			Using overlap when each partition flushes 3/4 of partition size.
+			Using tournament tree instead heap for performance.
+
+- a list of the third party code used and their licenses
+    1. thread pool, https://github.com/progschj/ThreadPool
+
+	Copyright (c) 2012 Jakob Progsch, Václav Zeman
+
+	This software is provided 'as-is', without any express or implied
+	warranty. In no event will the authors be held liable for any damages
+	arising from the use of this software.
+
+	Permission is granted to anyone to use this software for any purpose,
+	including commercial applications, and to alter it and redistribute it
+	freely, subject to the following restrictions:
+
+	1. The origin of this software must not be misrepresented; you must not
+	claim that you wrote the original software. If you use this software
+	in a product, an acknowledgment in the product documentation would be
+	appreciated but is not required.
+
+	2. Altered source versions must be plainly marked as such, and must not be
+	misrepresented as being the original software.
+
+	3. This notice may not be removed or altered from any source
+	distribution.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    1. Fully Task pool model
+        All tasks including parsing query and all operators are divided in small tasks and processed.
+        Cache size and cache locality are considered for dividing tasks.
+    2. Partitioning Hash join
+        Our main algorithm for solving this probmen is the  partitioning hash join algorithm, not the radix hash join.
+    3. Lock-free
+        There is no explicit lock or wait except the lock waiting for end of processing a batch queries.
+    4. MemoryPool
+        -Thread Local Buddy allocator
+    5. Query Optimization
+        1)Filter propagation
+        2)Filter first join order
+        3)Removing Redundant join operator
+        4)For duplicated Keys
+            -Add count column for it if needed.
+    6. Some optimization..
+
+- a list of the third party code used and their licenses
+    1. boost, Boost Software License
+    2. buddy, no license mentioned, https://github.com/cloudwu/buddy
+    3. tbb, Apache License 2.0
+

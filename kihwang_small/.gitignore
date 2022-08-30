@@ -1,0 +1,8 @@
+.*.swp
+build
+submission.tar.gz
+cscope.*
+.bash_history
+*.o
+log
+perf.data*
